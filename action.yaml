@@ -1,0 +1,65 @@
+# action.yaml
+name: 'OpenAI Code review Github Action'
+description: 'A Github Action that posts code review from OpenAI to pull request'
+inputs:
+  github-token:
+    description: 'The token used to authenticate with the GitHub API'
+    required: false
+    default: ${{ github.token }} #${{ secrets.GITHUB_TOKEN }}
+  code-review-model:
+    description: 'The OpenAI language model to use for code review'
+    required: false
+    default: 'gpt-3.5-turbo'
+  openai-key:
+    description: 'The OpenAI API key'
+    required: true
+  prompt:
+    description: 'The prompt to use for the analysis.'
+    required: false
+    default: 'You are helpful assistant is here to review the code. Please review the code change below and provide feedback.'
+
+outputs:
+  results:
+    description: 'The results of the code review'
+    value: ${{ steps.openai.outputs.reviewresult }}
+
+runs:
+  using: 'composite'
+  steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+
+    - name: Run OpenAI code review
+      id: openai
+      run: |
+        git diff ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} | python ./analyze_code_changes.py > review.txt
+        echo 'reviewresult<<EOF' >> $GITHUB_OUTPUT
+        echo "$(cat review.txt)" >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        OPENAI_API_KEY: ${{ inputs.openai-key }}
+        MODEL: ${{ inputs.code-review-model }}
+        PROMPT: ${{ inputs.prompt }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v3
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          ${{ steps.openai.outputs.reviewresult }}
+        reactions: '+1'
+
