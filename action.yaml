@@ -1,5 +1,6 @@
 # action.yaml
 name: 'OpenAI Code review Github Action'
+author: Sagi (Sergey) Shnaidman (@sshnaidm)
 description: 'A Github Action that posts code review from OpenAI to pull request'
 inputs:
   github-token:
@@ -39,13 +40,13 @@ runs:
         python-version: '3.10'
 
     - name: Install Dependencies
-      run: pip install -r requirements.txt
+      run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
 
     - name: Run OpenAI code review
       id: openai
       run: |
-        git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python ./analyze_code_changes.py > review.txt
+        git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python ${{ github.action_path }}/analyze_code_changes.py > review.txt
         echo 'reviewresult<<EOF' >> $GITHUB_OUTPUT
         echo "$(cat review.txt)" >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
