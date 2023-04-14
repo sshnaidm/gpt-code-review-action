@@ -44,7 +44,7 @@ runs:
     - name: Run OpenAI code review
       id: openai
       run: |
-        git diff ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }} | python ./analyze_code_changes.py > review.txt
+        git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python ./analyze_code_changes.py > review.txt
         echo 'reviewresult<<EOF' >> $GITHUB_OUTPUT
         echo "$(cat review.txt)" >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
