@@ -23,8 +23,9 @@ jobs:
       - uses: sshnaidm/gpt-code-review-action@v1
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
-          # model: 'text-davinci-002'
-          # prompt: 'You are helpful assistant is here to review the code. Please review the code change below and provide feedback.'
+          # model: 'gpt-4'
+          # prompt: 'Only suggest performance improvements for this code.'
+
 
 ```
 

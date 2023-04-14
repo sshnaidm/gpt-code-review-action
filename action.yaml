@@ -6,7 +6,7 @@ inputs:
     description: 'The token used to authenticate with the GitHub API'
     required: false
     default: ${{ github.token }} #${{ secrets.GITHUB_TOKEN }}
-  code-review-model:
+  model:
     description: 'The OpenAI language model to use for code review'
     required: false
     default: 'gpt-3.5-turbo'
@@ -16,7 +16,8 @@ inputs:
   prompt:
     description: 'The prompt to use for the analysis.'
     required: false
-    default: 'You are helpful assistant is here to review the code. Please review the code change below and provide feedback.'
+    default: |
+      Please review the code change below and provide feedback.
 
 outputs:
   results:
@@ -51,9 +52,11 @@ runs:
       shell: bash
       env:
         OPENAI_API_KEY: ${{ inputs.openai-key }}
-        MODEL: ${{ inputs.code-review-model }}
+        MODEL: ${{ inputs.model }}
         PROMPT: ${{ inputs.prompt }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        COMMIT_TITLE: ${{ github.event.pull_request.title }}
+        COMMIT_BODY: ${{ github.event.pull_request.body }}
 
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v3
