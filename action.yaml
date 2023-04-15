@@ -19,6 +19,10 @@ inputs:
     required: false
     default: |
       Please review the code change below and provide feedback.
+  post-if-error:
+    description: 'Whether to post a comment if there was an error'
+    required: false
+    default: 'true'
 
 outputs:
   results:
@@ -59,11 +63,21 @@ runs:
         COMMIT_TITLE: ${{ github.event.pull_request.title }}
         COMMIT_BODY: ${{ github.event.pull_request.body }}
 
+    - name: Show output in case of failure
+      id: err-output
+      if: failure()
+      run: |
+        echo 'errorresult<<EOF' >> $GITHUB_OUTPUT
+        echo "ERROR: $(cat review.txt)" >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
+        echo "Review result and error: $(cat review.txt)"
+      shell: bash
+
     - name: Create comment
+      if: success() || (inputs.post-if-error && inputs.post-if-error != 'false')
       uses: peter-evans/create-or-update-comment@v3
       with:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          ${{ steps.openai.outputs.reviewresult }}
+          ${{ steps.openai.outputs.reviewresult && steps.openai.outputs.reviewresult || steps.err-output.outputs.errorresult }}
         reactions: '+1'
-
