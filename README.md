@@ -25,6 +25,7 @@ jobs:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
           # model: 'gpt-4'
           # prompt: 'Only suggest performance improvements for this code.'
+          # post-if-error: false
 
 ```
 
