@@ -46,7 +46,7 @@ To post comments in Pull Requests, the job requires additional permissions: `pul
 
 `prompt`: The prompt to use for the analysis (optional, with a default value).
 
-`max-length`: The diff that is send to OpenAI for review is cut off after 4000 characters by default. With this paramter tyou can adjust this limit.
+`max-length`: The diff that is send to OpenAI for review is cut off after 4000 characters by default. With this paramter you can adjust this limit.
 
 `post-if-error`: Whether to post a comment if there was an error (optional, with a default `true`).
 
