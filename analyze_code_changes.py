@@ -22,18 +22,20 @@ if not os.environ.get("OPENAI_API_KEY"):
     sys.exit(1)
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-# Analyze the code changes with OpenAI
 model_engine = os.environ["MODEL"]
 commit_title = os.environ["COMMIT_TITLE"]
 commit_message = os.environ["COMMIT_BODY"]
+max_length = os.environ["MAX_LENGTH"]
+
+# Analyze the code changes with OpenAI
 code = sys.stdin.read()
 header = (f"Commit title is '{commit_title}'\n"
           f"and commit message is '{commit_message}'\n")
 prompt = os.environ["PROMPT"] + "\nCode of commit is:\n```\n" + code + "\n```"
-if len(prompt) > 4000:
+if len(prompt) > max_length:
     print(f"Prompt too long for OpenAI: {len(prompt)} characters, "
-          "sending only first 4000 characters")
-    prompt = prompt[:4000]
+          f"sending only first {max_length} characters")
+    prompt = prompt[:max_length]
 
 kwargs = {'model': model_engine}
 kwargs['temperature'] = 0.5
