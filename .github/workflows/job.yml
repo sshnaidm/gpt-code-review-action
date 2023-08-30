@@ -7,11 +7,10 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      # This step checks out a copy of your repository.
       - uses: actions/checkout@v3
-      # This step references the directory that contains the action.
       - uses: ./
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
+          max-length: 8000
           # model: 'text-davinci-003'
           # prompt: 'You are helpful assistant is here to review the code. Please review the code change below and provide feedback.'

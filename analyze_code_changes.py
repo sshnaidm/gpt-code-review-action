@@ -25,7 +25,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 model_engine = os.environ["MODEL"]
 commit_title = os.environ["COMMIT_TITLE"]
 commit_message = os.environ["COMMIT_BODY"]
-max_length = os.environ["MAX_LENGTH"]
+max_length = int(os.environ["MAX_LENGTH"])
 
 # Analyze the code changes with OpenAI
 code = sys.stdin.read()
