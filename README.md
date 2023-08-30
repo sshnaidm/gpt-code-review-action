@@ -24,6 +24,7 @@ jobs:
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
           # model: 'gpt-4'
+          # max-length: 8000
           # prompt: 'Only suggest performance improvements for this code.'
           # post-if-error: false
 
@@ -44,6 +45,8 @@ To post comments in Pull Requests, the job requires additional permissions: `pul
 `openai-key`: The OpenAI API key used for authentication (**required**).
 
 `prompt`: The prompt to use for the analysis (optional, with a default value).
+
+`max-length`: The diff that is send to OpenAI for review is cut off after 4000 characters by default. With this paramter you can adjust this limit.
 
 `post-if-error`: Whether to post a comment if there was an error (optional, with a default `true`).
 
