@@ -11,6 +11,6 @@ jobs:
       - uses: ./
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
-          max-length: 8000
+          max-length: 1000
           # model: 'text-davinci-003'
           # prompt: 'You are helpful assistant is here to review the code. Please review the code change below and provide feedback.'
