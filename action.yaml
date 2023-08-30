@@ -23,6 +23,10 @@ inputs:
     description: 'Whether to post a comment if there was an error'
     required: false
     default: 'true'
+  max-length:
+    description: 'Maximum number of characters to submit to OpenAI'
+    required: false
+    default: 4000
 
 outputs:
   results:
@@ -59,6 +63,7 @@ runs:
         OPENAI_API_KEY: ${{ inputs.openai-key }}
         MODEL: ${{ inputs.model }}
         PROMPT: ${{ inputs.prompt }}
+        MAX_LENGTH: ${{ inputs.max-length }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
         COMMIT_TITLE: ${{ github.event.pull_request.title }}
         COMMIT_BODY: ${{ github.event.pull_request.body }}
