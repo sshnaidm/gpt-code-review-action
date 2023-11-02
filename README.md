@@ -1,8 +1,14 @@
 # OpenAI Code Review Action
 
-This action uses the OpenAI GPT-3 language model to review code changes in a pull request.
+This action uses selected OpenAI language model to review code changes in a pull request.
 
 ## Usage
+
+You have to provide your OpenAI API token to your repository. You need to have OpenAI API
+account. You can create an API key [here](https://platform.openai.com/account/api-keys).
+Copy it as you would not be able to get it later. Then you go to Settings / Secrets and
+variables / Actions and add a new Repository secret named `OPENAI_API_KEY` with your API
+key.
 
 To use this action, include it as a step in your workflow, after the checkout step.
 
