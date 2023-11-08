@@ -20,7 +20,8 @@ import sys
 if not os.environ.get("OPENAI_API_KEY"):
     print("No OpenAI API key found")
     sys.exit(1)
-openai.api_key = os.environ["OPENAI_API_KEY"]
+
+client = openai.OpenAI()
 
 model_engine = os.environ["MODEL"]
 commit_title = os.environ["COMMIT_TITLE"]
@@ -47,12 +48,9 @@ kwargs['messages'] = [
     {"role": "user", "content": prompt},
 ]
 try:
-    response = openai.ChatCompletion.create(**kwargs)
+    response = client.chat.completions.create(**kwargs)
     if response.choices:
-        if 'text' in response.choices[0]:
-            review_text = response.choices[0].text.strip()
-        else:
-            review_text = response.choices[0].message.content.strip()
+        review_text = response.choices[0].message.content.strip()
     else:
         review_text = f"No correct answer from OpenAI!\n{response.text}"
 except Exception as e:
