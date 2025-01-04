@@ -58,6 +58,10 @@ Currently, only the first 4000 characters are sent due to OpenAI's limitations. 
 
 Contributions to this action are welcome! Please create an issue or pull request in the repository.
 
+## Testing
+
+You can run `./test.sh` that just verifies that the Python code is able to send something to the cheapest OpenAI model and get something out of it. (The model is kindly asked to tell "It works!").
+
 ## License
 
 This action is licensed under the Apache 2.0 License. See the LICENSE file for details
