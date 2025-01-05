@@ -62,6 +62,8 @@ Contributions to this action are welcome! Please create an issue or pull request
 
 You can run `./test.sh` that just verifies that the Python code is able to send something to the cheapest OpenAI model and get something out of it. (The model is kindly asked to tell "It works!").
 
+The test expects you have Python 3.10 available as it is the one used in the action itself. There is an appropriate file `.python_version` for [pyenv](https://github.com/pyenv/pyenv).
+
 ## License
 
 This action is licensed under the Apache 2.0 License. See the LICENSE file for details
