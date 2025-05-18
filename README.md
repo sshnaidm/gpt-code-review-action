@@ -1,6 +1,6 @@
 # OpenAI Code Review Action
 
-This action uses the OpenAI GPT-3 language model to review code changes in a pull request.
+This action uses the OpenAI GPT-4 language model to review code changes in a pull request.
 
 ## Usage
 
@@ -18,12 +18,12 @@ jobs:
       pull-requests: write
     steps:
       # This step checks out a copy of your repository.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # This step references the directory that contains the action.
-      - uses: sshnaidm/gpt-code-review-action@v2.0
+      - uses: sshnaidm/gpt-code-review-action@v3.0
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
-          # model: 'gpt-4.1'
+          # model: 'gpt-4.1-mini'
           # max-length: 8000
           # prompt: 'Only suggest performance improvements for this code.'
           # post-if-error: false
