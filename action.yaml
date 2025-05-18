@@ -10,7 +10,7 @@ inputs:
   model:
     description: 'The OpenAI language model to use for code review'
     required: false
-    default: 'gpt-3.5-turbo'
+    default: 'gpt-4.1-mini'
   openai-key:
     description: 'The OpenAI API key'
     required: true
@@ -26,7 +26,11 @@ inputs:
   max-length:
     description: 'Maximum number of characters to submit to OpenAI'
     required: false
-    default: 4000
+    default: 8000
+  review-title:
+    description: 'The title of the review'
+    required: false
+    default: '# Code Review by OpenAI'
 
 outputs:
   results:
@@ -54,7 +58,8 @@ runs:
     - name: Run OpenAI code review
       id: openai
       run: |
-        git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python ${{ github.action_path }}/analyze_code_changes.py > review.txt
+        echo "$REVIEW_TITLE" > review.txt
+        git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python ${{ github.action_path }}/analyze_code_changes.py >> review.txt
         echo 'reviewresult<<EOF' >> $GITHUB_OUTPUT
         echo "$(cat review.txt)" >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
@@ -67,6 +72,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         COMMIT_TITLE: ${{ github.event.pull_request.title }}
         COMMIT_BODY: ${{ github.event.pull_request.body }}
+        REVIEW_TITLE: ${{ inputs.review-title }}
 
     - name: Show output in case of failure
       id: err-output
