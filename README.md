@@ -23,10 +23,11 @@ jobs:
       - uses: sshnaidm/gpt-code-review-action@v2.0
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
-          # model: 'gpt-4'
+          # model: 'gpt-4.1'
           # max-length: 8000
           # prompt: 'Only suggest performance improvements for this code.'
           # post-if-error: false
+          # review-title: '# My AI bot review'
 
 ```
 
@@ -40,19 +41,21 @@ To post comments in Pull Requests, the job requires additional permissions: `pul
 
 `github-token`: The token used to authenticate with the GitHub API (optional, will take a default `${{ github.token }}`).
 
-`model`: The OpenAI language model to use for code review (optional, with a default `gpt-3.5-turbo`).
+`model`: The OpenAI language model to use for code review (optional, with a default `gpt-4.1-mini`).
 
 `openai-key`: The OpenAI API key used for authentication (**required**).
 
 `prompt`: The prompt to use for the analysis (optional, with a default value).
 
-`max-length`: The diff that is send to OpenAI for review is cut off after 4000 characters by default. With this paramter you can adjust this limit.
+`max-length`: The diff that is send to OpenAI for review is cut off after 8000 characters by default. With this parameter you can adjust this limit.
 
 `post-if-error`: Whether to post a comment if there was an error (optional, with a default `true`).
 
+`review-title`: The title to use for the review comment (optional, with a default `Code Review by OpenAI`).
+
 ### Limitations
 
-Currently, only the first 4000 characters are sent due to OpenAI's limitations. Later, we will send the text in chunks, and each part will be reviewed separately.
+Currently, only the first 8000 characters are sent due to OpenAI's limitations. Later, we will send the text in chunks, and each part will be reviewed separately.
 
 ## Contributing
 
