@@ -52,7 +52,7 @@ try:
     if response.choices:
         review_text = response.choices[0].message.content.strip()
     else:
-        review_text = f"No correct answer from OpenAI!\n{response.text}"
+        review_text = f"Nooooooo correct answer from OpenAI!\n{response.text}"
 except Exception as e:
     review_text = f"OpenAI failed to generate a review: {e}"
 
