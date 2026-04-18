@@ -20,7 +20,7 @@ jobs:
       # This step checks out a copy of your repository.
       - uses: actions/checkout@v4
       # This step references the directory that contains the action.
-      - uses: sshnaidm/gpt-code-review-action@v3.0
+      - uses: sshnaidm/gpt-code-review-action@v4.0
         with:
           openai-key: ${{ secrets.OPENAI_API_KEY }}
           # model: 'gpt-4.1-mini'
